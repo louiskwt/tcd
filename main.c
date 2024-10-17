@@ -19,7 +19,6 @@ int main (int argc, char* argv[])
     
     // initial set up
     int total_second = atoi(argv[1]) * 60;
-    printf("%i\n", total_second);
     int minute = convert_minute(total_second);
     int hour = convert_hour(minute);
     int second = convert_second(total_second);
