@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 /*
  TODO: 1) fix 1 minute count down (done)
@@ -26,6 +28,11 @@ int main (int argc, char* argv[])
         printf("Usage: ./tcd MINUTES\n");
         return 1;
     }
+    // get terminal size to center the countdown
+    struct winsize terminal_window;
+    ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
+    int t_height = terminal_window.ws_row;
+    int t_width = terminal_window.ws_col;
     
     // initial set up
     int total_second = atoi(argv[1]) * 60;
@@ -35,7 +42,6 @@ int main (int argc, char* argv[])
 
     double time_spent = 0;
     double prev_time = 0;
-
     // start ncurses window
     initscr();
     refresh();
@@ -45,7 +51,16 @@ int main (int argc, char* argv[])
     // count down logic
     do
     {
-        mvprintw(10, 10, "%02i : %02i : %02i", hour, minute, second);
+        // dynamic resizing
+        ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
+        if (t_width != terminal_window.ws_col || t_height != terminal_window.ws_row)
+        {
+            t_height = terminal_window.ws_row;
+            t_width = terminal_window.ws_col;
+            clear();
+        }
+
+        mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "%02i : %02i : %02i", hour, minute, second);
         refresh();
         time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC; // in second
         
@@ -61,11 +76,11 @@ int main (int argc, char* argv[])
     while(total_second >= 0);
 
     // wait for key press and close window
-    mvprintw(10, 10, "\npress any key to exit...");
+    clear();
+    mvprintw(t_height, t_width, "\npress any key to exit...");
     refresh();
     getch();
     endwin();
-    printf("Time spent: %f, total second: %d", time_spent, total_second);
     return 0;
 }
 
