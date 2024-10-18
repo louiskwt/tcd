@@ -14,7 +14,7 @@
  TODO: 1) fix 1 minute count down (done)
        2 ) center the count down (done)
        3) play sound when count down end (done)
-       4 ) display different font styles 
+       4 ) display different font styles (done) 
        5 ) accept input 
        6 ) write some test
 */
@@ -290,17 +290,15 @@ void print_digit(int digit, int x, int y)
             continue;
         }
 
-        if (digit > 10) 
+        if (digit >= 10) 
         {
             int d = (int)(floor(digit / 10));
             draw_text(d, x + (i * 10), y);
             digit = digit % 10;
-            continue;
         } 
         else
         {
             draw_text(digit, x + (i * 10), y); 
-            continue; 
         }  
     }
 }
