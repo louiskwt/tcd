@@ -102,9 +102,8 @@ int main (int argc, char* argv[])
     clear();
     mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
     refresh();
-    // play_sound();
+    play_sound();
     endwin();
-    // printf("total second: %i\n", total_second);
     return 0;
 }
 
