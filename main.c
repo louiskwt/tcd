@@ -5,6 +5,7 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <string.h>
 #include <ao/ao.h>
 #include <mpg123.h>
 
@@ -12,18 +13,25 @@
 /*
  TODO: 1) fix 1 minute count down (done)
        2 ) center the count down (done)
-       3) play sound when doen 
+       3) play sound when count down end (done)
        4 ) display different font styles 
        5 ) accept input 
        6 ) write some test
 */
 
-#define EIGHT_BITS 8;
+#define EIGHT_BITS 8
+#define ROW 5
+#define COL 5
+
+// struct for text [row][col] 3 x 5 #
+typedef char TEXT[ROW][COL];
 
 int convert_hour(int minute);
 int convert_minute(int second);
 int convert_second(int second);
 int play_sound(void);
+void draw_text(int num, int x, int y);
+void print_digit(int digit, int x, int y);
 
 int main (int argc, char* argv[])
 {
@@ -38,7 +46,7 @@ int main (int argc, char* argv[])
     ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
     int t_height = terminal_window.ws_row;
     int t_width = terminal_window.ws_col;
-    
+
     // initial set up
     int total_second = atof(argv[1]) * 60;
     int minute = convert_minute(total_second);
@@ -85,9 +93,8 @@ int main (int argc, char* argv[])
     mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
     refresh();
     play_sound();
-    getch();
     endwin();
-    printf("total second: %i\n", total_second);
+    // printf("total second: %i\n", total_second);
     return 0;
 }
 
@@ -169,3 +176,128 @@ int play_sound()
 
     return 0;
 }
+
+void draw_text(int num, int x, int y)
+{
+    // struct for text [row][col] 4 x 5 #
+    TEXT t;
+    switch (num)
+    {
+    case 1:
+        strcpy(t[0], "  # ");
+        strcpy(t[1], "### ");
+        strcpy(t[2], "  # ");
+        strcpy(t[3], "  # ");
+        strcpy(t[4], "####");
+        break;
+    case 2:
+        strcpy(t[0], "####");
+        strcpy(t[1], "   #");
+        strcpy(t[2], "####");
+        strcpy(t[3], "#   ");
+        strcpy(t[4], "####");
+        break;
+    case 3:
+        strcpy(t[0], "####");
+        strcpy(t[1], "   #");
+        strcpy(t[2], " ###");
+        strcpy(t[3], "   #");
+        strcpy(t[4], "####");
+        break;
+    case 4:
+        strcpy(t[0], "#  #");
+        strcpy(t[1], "#  #");
+        strcpy(t[2], "####");
+        strcpy(t[3], "   #");
+        strcpy(t[4], "   #");
+        break;
+    case 5:
+        strcpy(t[0], "####");
+        strcpy(t[1], "#   ");
+        strcpy(t[2], "####");
+        strcpy(t[3], "   #");
+        strcpy(t[4], "####");
+        break;
+    case 6:
+        strcpy(t[0], "####");
+        strcpy(t[1], "#   ");
+        strcpy(t[2], "####");
+        strcpy(t[3], "#  #");
+        strcpy(t[4], "####");
+        break;
+    case 7:
+        strcpy(t[0], "####");
+        strcpy(t[1], "   #");
+        strcpy(t[2], "   #");
+        strcpy(t[3], "   #");
+        strcpy(t[4], "   #");
+        break;
+    case 8:
+        strcpy(t[0], "####");
+        strcpy(t[1], "#  #");
+        strcpy(t[2], "####");
+        strcpy(t[3], "#  #");
+        strcpy(t[4], "####");
+        break;
+    case 9:
+        strcpy(t[0], "####");
+        strcpy(t[1], "#  #");
+        strcpy(t[2], "####");
+        strcpy(t[3], "   #");
+        strcpy(t[4], "####");
+        break;
+    case 0:
+        strcpy(t[0], "####");
+        strcpy(t[1], "#  #");
+        strcpy(t[2], "#  #");
+        strcpy(t[3], "#  #");
+        strcpy(t[4], "####");
+        break;
+    default:
+        strcpy(t[0], " ## ");
+        strcpy(t[1], " ## ");
+        strcpy(t[2], "    ");
+        strcpy(t[3], " ## ");
+        strcpy(t[4], " ## ");
+        break;
+    }
+    for (int i = 0; i < ROW; i++)
+    {
+        mvprintw(floor(y/2) + i,  floor(x / 2), t[i]);
+        refresh();
+    }
+    return;
+}
+
+void print_digit(int digit, int x, int y)
+{
+   
+    for (int i = 0; i < 2; i++)
+    { 
+        if (digit < 10 && i == 0)
+        {
+            draw_text(i, x + (i * 10), y);
+            continue;
+        }
+
+        if (digit > 10) 
+        {
+            int d = (int)(floor(digit / 10));
+            draw_text(d, x + (i * 10), y);
+            digit = digit % 10;
+        } 
+        else
+        {
+            draw_text(digit, x + (i * 10), y);  
+        }  
+    }
+}
+
+// +--- 3x5 figlet
+
+                                        
+// ###  #  ### ### # # ### ### ### ### ### 
+// # # ##    #   # # # #   #     # # # # # 
+// # #  #  ###  ## ### ### ###   # ### ### 
+// # #  #  #     #   #   # # #   # # #   # 
+// ### ### ### ###   # ### ###   # ### ### 
