@@ -5,6 +5,9 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <ao/ao.h>
+#include <mpg123.h>
+
 
 /*
  TODO: 1) fix 1 minute count down (done)
@@ -15,10 +18,12 @@
        6 ) write some test
 */
 
+#define EIGHT_BITS 8;
 
 int convert_hour(int minute);
 int convert_minute(int second);
 int convert_second(int second);
+int play_sound(void);
 
 int main (int argc, char* argv[])
 {
@@ -79,6 +84,7 @@ int main (int argc, char* argv[])
     clear();
     mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
     refresh();
+    play_sound();
     getch();
     endwin();
     printf("total second: %i\n", total_second);
@@ -111,4 +117,55 @@ int convert_minute(int second)
 int convert_second(int second)
 {
    return second % 60;
+}
+
+int play_sound()
+{
+    // initializations
+    mpg123_handle *m_handle;
+    char *buffer;
+    size_t buffer_size;
+    size_t done;
+    int err;
+
+    ao_device *device;
+
+    ao_sample_format format;
+    int channels, encoding;
+    long rate;
+
+    ao_initialize();
+    int driver = ao_default_driver_id();
+    mpg123_init();
+
+    m_handle = mpg123_new(NULL, &err);
+    buffer_size = mpg123_outblock(m_handle);
+    buffer = (char*) malloc(buffer_size * sizeof(char));
+
+    // open the file and get decoding format
+    mpg123_open(m_handle, "sound.mp3");
+    mpg123_getformat(m_handle, &rate, &channels, &encoding);
+
+    // set the output sound format
+    format.bits = mpg123_encsize(encoding) * EIGHT_BITS;
+    format.rate = rate;
+    format.channels = channels;
+    format.byte_format = AO_FMT_NATIVE;
+    format.matrix = 0;
+    device = ao_open_live(driver, &format, NULL);
+
+    // decode and play
+    while (mpg123_read(m_handle, buffer, buffer_size, &done) == MPG123_OK)
+    {
+        ao_play(device, buffer, done);
+    }
+ 
+    free(buffer);
+    ao_close(device);
+    mpg123_close(m_handle);
+    mpg123_delete(m_handle);
+    mpg123_exit();
+    ao_shutdown();
+
+    return 0;
 }
