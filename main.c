@@ -60,10 +60,12 @@ int main (int argc, char* argv[])
     refresh();
     curs_set(0); // remove cursor
 
+   
     clock_t begin = clock();
     // count down logic
     do
     {
+        int offset_x = 0;
         // dynamic resizing
         ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
         if (t_width != terminal_window.ws_col || t_height != terminal_window.ws_row)
@@ -73,8 +75,16 @@ int main (int argc, char* argv[])
             clear();
         }
 
-        mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "%02i : %02i : %02i", hour, minute, second);
-        refresh();
+        print_digit(hour, t_width, t_height);
+        offset_x += 20;
+        draw_text(9999, t_width + offset_x, t_height);
+        offset_x += 10;
+        print_digit(minute, t_width + offset_x, t_height);
+        offset_x += 20;
+        draw_text(9999, t_width + offset_x, t_height);
+        offset_x += 10;
+        print_digit(second, t_width + offset_x, t_height);
+
         time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC; // in second
         
         if (time_spent - prev_time >= 1)
@@ -92,7 +102,7 @@ int main (int argc, char* argv[])
     clear();
     mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
     refresh();
-    play_sound();
+    // play_sound();
     endwin();
     // printf("total second: %i\n", total_second);
     return 0;
@@ -285,10 +295,12 @@ void print_digit(int digit, int x, int y)
             int d = (int)(floor(digit / 10));
             draw_text(d, x + (i * 10), y);
             digit = digit % 10;
+            continue;
         } 
         else
         {
-            draw_text(digit, x + (i * 10), y);  
+            draw_text(digit, x + (i * 10), y); 
+            continue; 
         }  
     }
 }
