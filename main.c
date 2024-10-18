@@ -273,7 +273,7 @@ void draw_text(int num, int x, int y)
     }
     for (int i = 0; i < ROW; i++)
     {
-        mvprintw(floor(y/2) + i,  floor(x / 2), t[i]);
+        mvprintw(floor(y / 2) + i,  floor(x / 2) - 30, t[i]);
         refresh();
     }
     return;
