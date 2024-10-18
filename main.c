@@ -4,6 +4,16 @@
 #include <math.h>
 #include <time.h>
 
+/*
+ TODO: 1) fix 1 minute count down (done)
+       2 ) center the count down 
+       3) play sound when doen 
+       4 ) display different font styles 
+       5 ) accept input 
+       6 ) write some test
+*/
+
+
 int convert_hour(int minute);
 int convert_minute(int second);
 int convert_second(int second);
@@ -72,7 +82,7 @@ int convert_hour(int minute)
 
 int convert_minute(int second)
 {
-    if (second <= 60)
+    if (second < 60)
     {
         return 0;
     }
