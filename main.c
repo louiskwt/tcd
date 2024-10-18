@@ -8,7 +8,7 @@
 
 /*
  TODO: 1) fix 1 minute count down (done)
-       2 ) center the count down 
+       2 ) center the count down (done)
        3) play sound when doen 
        4 ) display different font styles 
        5 ) accept input 
@@ -35,7 +35,7 @@ int main (int argc, char* argv[])
     int t_width = terminal_window.ws_col;
     
     // initial set up
-    int total_second = atoi(argv[1]) * 60;
+    int total_second = atof(argv[1]) * 60;
     int minute = convert_minute(total_second);
     int hour = convert_hour(minute);
     int second = convert_second(total_second);
@@ -77,10 +77,11 @@ int main (int argc, char* argv[])
 
     // wait for key press and close window
     clear();
-    mvprintw(t_height, t_width, "\npress any key to exit...");
+    mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
     refresh();
     getch();
     endwin();
+    printf("total second: %i\n", total_second);
     return 0;
 }
 
