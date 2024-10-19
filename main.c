@@ -100,7 +100,7 @@ int main (int argc, char* argv[])
 
     // wait for key press and close window
     clear();
-    mvprintw(floor(t_height / 2), floor(t_width / 2) - 6, "press any key to exit...");
+    mvprintw(floor(t_height / 2), floor(t_width / 2) - 15, "Times up! Press any key to exit.");
     refresh();
     play_sound();
     endwin();
@@ -272,7 +272,7 @@ void draw_text(int num, int x, int y)
     }
     for (int i = 0; i < ROW; i++)
     {
-        mvprintw(floor(y / 2) + i,  floor(x / 2) - 30, t[i]);
+        mvprintw(floor(y / 2) + i,  floor(x / 2) - 18, t[i]);
         refresh();
     }
     return;
