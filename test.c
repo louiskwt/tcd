@@ -107,6 +107,31 @@ void test_hour_input()
     printf("...h: %i, m: %i, s: %i\n", hour, min, second);
 }
 
+void test_a_fraction_of_hour_input()
+{
+    int jmp_ravl;
+    int input = atof("119");
+    int total_second = input * 60 - 30;
+    int second;
+    int hour;
+    int min;
+
+    test_start("test_a_fraction_of_hour");
+    should_exit = 0;
+    if (!(jmp_ravl=setjmp(jump_env)))
+    {
+        min = convert_minute(total_second);
+        second = convert_second(total_second);
+        hour = convert_hour(total_second);
+    }
+    assert(jmp_ravl == 0);
+    assert(second == 30);
+    assert(min == 58);
+    assert(hour == 1);
+    test_end();
+    printf("...h: %i, m: %i, s: %i\n", hour, min, second);
+}
+
 void test_fraction_input()
 {
     int jmp_ravl;
@@ -140,6 +165,7 @@ int main()
     test_whole_number_minute_input();
     test_hour_input();
     test_fraction_input();
+    test_a_fraction_of_hour_input();
     printf("Total tests passed: %d | Total tests failed: %d\n", tests_passed, num_tests - tests_passed);
     done = 1;
     return !(tests_passed == num_tests);
