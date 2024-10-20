@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ao/ao.h>
 #include <mpg123.h>
+#include "utils.h"
 
 
 /*
@@ -26,9 +27,6 @@
 // struct for text [row][col] 3 x 5 #
 typedef char TEXT[ROW][COL];
 
-int convert_hour(int minute);
-int convert_minute(int second);
-int convert_second(int second);
 int play_sound(void);
 void draw_text(int num, int x, int y);
 void print_digit(int digit, int x, int y);
@@ -108,33 +106,6 @@ int main (int argc, char* argv[])
     return 0;
 }
 
-int convert_hour(int minute)
-{ 
-    if (minute < 60)
-    {
-        return 0;
-    } else 
-    {
-        return round(minute / 60);
-    }
-}
-
-int convert_minute(int second)
-{
-    if (second < 60)
-    {
-        return 0;
-    }
-    else
-    {
-        return round(second / 60);
-    }
-}
-
-int convert_second(int second)
-{
-   return second % 60;
-}
 
 int play_sound()
 {
