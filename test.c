@@ -105,6 +105,30 @@ void test_hour_input()
     printf("...h: %i, m: %i, s: %i\n", hour, min, second);
 }
 
+void test_fraction_input()
+{
+    int jmp_ravl;
+    float input = 0.1;
+    int second;
+    int hour;
+    int min;
+
+    test_start("test_whole_number_minute");
+    should_exit = 0;
+    if (!(jmp_ravl=setjmp(jump_env)))
+    {
+        min = convert_minute(input * 60);
+        second = convert_second(input * 60);
+        hour = convert_hour(input);
+    }
+    assert(jmp_ravl == 0);
+    assert(second == 6);
+    assert(min == 0);
+    assert(hour == 0);
+    test_end();
+    printf("...h: %i, m: %i, s: %i\n", hour, min, second);
+}
+
 int main()
 {
     num_tests = 0;
@@ -112,6 +136,7 @@ int main()
     done = 0;
     test_whole_number_minute_input();
     test_hour_input();
+    test_fraction_input();
     printf("Total tests passed: %d | Total tests failed: %d\n", tests_passed, num_tests - tests_passed);
     done = 1;
     return !(tests_passed == num_tests);
