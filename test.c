@@ -62,6 +62,7 @@ void test_whole_number_minute_input()
 {
     int jmp_ravl;
     int input = 1;
+    int total_second = input * 60;
     int second;
     int hour;
     int min;
@@ -70,9 +71,9 @@ void test_whole_number_minute_input()
     should_exit = 0;
     if (!(jmp_ravl=setjmp(jump_env)))
     {
-        min = convert_minute(input * 60);
-        second = convert_second(input * 60);
-        hour = convert_hour(1);
+        min = convert_minute(total_second);
+        second = convert_second(total_second);
+        hour = convert_hour(total_second);
     }
     assert(jmp_ravl == 0);
     assert(second == 0);
@@ -84,7 +85,8 @@ void test_whole_number_minute_input()
 void test_hour_input()
 {
     int jmp_ravl;
-    int input = 120;
+    int input = atof("120");
+    int total_second = input * 60;
     int second;
     int hour;
     int min;
@@ -93,9 +95,9 @@ void test_hour_input()
     should_exit = 0;
     if (!(jmp_ravl=setjmp(jump_env)))
     {
-        min = convert_minute(input * 60);
-        second = convert_second(input * 60);
-        hour = convert_hour(input);
+        min = convert_minute(total_second);
+        second = convert_second(total_second);
+        hour = convert_hour(total_second);
     }
     assert(jmp_ravl == 0);
     assert(second == 0);
@@ -109,6 +111,7 @@ void test_fraction_input()
 {
     int jmp_ravl;
     float input = 0.1;
+    int total_second = input * 60;
     int second;
     int hour;
     int min;
@@ -117,9 +120,9 @@ void test_fraction_input()
     should_exit = 0;
     if (!(jmp_ravl=setjmp(jump_env)))
     {
-        min = convert_minute(input * 60);
-        second = convert_second(input * 60);
-        hour = convert_hour(input);
+        min = convert_minute(total_second);
+        second = convert_second(total_second);
+        hour = convert_hour(total_second);
     }
     assert(jmp_ravl == 0);
     assert(second == 6);
