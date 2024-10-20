@@ -46,9 +46,11 @@ int main (int argc, char* argv[])
     int t_width = terminal_window.ws_col;
 
     // initial set up
-    int total_second = atof(argv[1]) * 60;
+    int input_min = atof(argv[1]);
+    int total_second = input_min * 60;
+
     int minute = convert_minute(total_second);
-    int hour = convert_hour(minute);
+    int hour = convert_hour(total_second);
     int second = convert_second(total_second);
 
     double time_spent = 0;
@@ -89,7 +91,7 @@ int main (int argc, char* argv[])
         {
             total_second--;
             minute = convert_minute(total_second);
-            hour = convert_hour(minute);
+            hour = convert_hour(total_second);
             second = convert_second(total_second);
             prev_time++;
         }
