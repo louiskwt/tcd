@@ -16,7 +16,7 @@ int convert_minute(int second)
     if (second < 60) return 0;
     
     int min = round(second / 60);
-    return min > 59 ? 0 : min;
+    return min > 59 ? min % 60 : min;
 }
 
 int convert_second(int second)
