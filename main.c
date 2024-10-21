@@ -148,10 +148,9 @@ int main (int argc, char* argv[])
 
     // wait for key press and close window
     clear();
-    mvprintw(floor(t_height / 2), floor(t_width / 2) - 15, "Times up! Press any key to exit."); // center the message by its half lenght which is 15
+    mvprintw(floor(t_height / 2), floor(t_width / 2) - 16, "Times up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
     refresh();
     play_sound();
-    getch();
     endwin();
     return 0;
 }
@@ -196,11 +195,11 @@ int play_sound()
     while (mpg123_read(m_handle, buffer, buffer_size, &done) == MPG123_OK)
     {
         ao_play(device, buffer, done);
-    }
+    } 
  
     free(buffer);
     buffer = NULL;
-    
+
     ao_close(device);
     mpg123_close(m_handle);
     mpg123_delete(m_handle);
