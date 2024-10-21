@@ -65,23 +65,23 @@ int main (int argc, char* argv[])
         int user_input_second;
 
         printf("Enter a number for hour: ");
-        if (scanf("%d", &user_input_hr) != 1)
+        if (scanf("%d", &user_input_hr) != 1 || user_input_hr > 99)
         {
-            printf("Invalid number for hour.\n");
+            printf("Invalid number for hour. Please enter a number between 0 and 99.\n");
             return 1;
         }
 
         printf("Enter a number for minute: ");
-        if (scanf("%d", &user_input_min) != 1)
+        if (scanf("%d", &user_input_min) != 1 || user_input_min >= 60)
         {
-            printf("Invalid number for minute.\n");
+            printf("Invalid number for minute. Please enter a number between 0 and 59.\n");
             return 1;
         }
 
         printf("Enter a number for second: ");
-        if (scanf("%d", &user_input_second) != 1)
+        if (scanf("%d", &user_input_second) != 1 || user_input_second >= 60)
         {
-            printf("Invalid number for second.\n");
+            printf("Invalid number for second. Please enter a number between 0 and 59.\n");
             return 1;
         }
 
