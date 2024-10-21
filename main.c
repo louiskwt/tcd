@@ -88,7 +88,6 @@ int main (int argc, char* argv[])
         total_second_from_user_input = convert_user_input_to_second(user_input_hr, user_input_min, user_input_second);
     }
 
-
     // get terminal size to center the countdown
     struct winsize terminal_window;
     ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
@@ -111,7 +110,7 @@ int main (int argc, char* argv[])
    
     clock_t begin = clock();
     // count down logic
-    do
+    while(total_second >= 0)
     {
         int offset_x = 0;
         // dynamic resizing
@@ -144,9 +143,7 @@ int main (int argc, char* argv[])
             prev_time++;
         }
     }
-    while(total_second >= 0);
-
-    // wait for key press and close window
+    
     clear();
     mvprintw(floor(t_height / 2), floor(t_width / 2) - 16, "Times up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
     refresh();
@@ -305,8 +302,6 @@ void print_digit(int digit, int x, int y)
 {
     for (int i = 0; i < 2; i++)
     { 
-    
-
         if (digit >= 10) 
         {
             int d = (int)(floor(digit / 10));
