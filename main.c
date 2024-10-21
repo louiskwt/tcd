@@ -17,7 +17,7 @@
        3) play sound when count down end (done)
        4 ) display different font styles (done) 
        5 ) accept input 
-       6 ) write some test
+       6 ) write some tests (done)
 */
 
 #define EIGHT_BITS 8
@@ -39,6 +39,14 @@ int main (int argc, char* argv[])
         printf("Usage: ./tcd MINUTES\n");
         return 1;
     }
+
+    int input_min = atof(argv[1]);
+    if (round(input_min / 60) >= 100)
+    {
+        printf("Exceed the mixmum minute (6000)! Please try again with a smaller number.\n");
+        return 1;
+    }
+
     // get terminal size to center the countdown
     struct winsize terminal_window;
     ioctl(STDERR_FILENO, TIOCGWINSZ, &terminal_window);
@@ -46,7 +54,6 @@ int main (int argc, char* argv[])
     int t_width = terminal_window.ws_col;
 
     // initial set up
-    int input_min = atof(argv[1]);
     int total_second = input_min * 60;
 
     int minute = convert_minute(total_second);
