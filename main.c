@@ -39,7 +39,7 @@ int main (int argc, char* argv[])
         return 1;
     }
 
-    int input_min = atof(argv[1]);
+    float input_min = atof(argv[1]);
     if (round(input_min / 60) >= 100)
     {
         printf("Exceed the mixmum minute (6000)! Please try again with a smaller number.\n");
@@ -53,7 +53,7 @@ int main (int argc, char* argv[])
     int t_width = terminal_window.ws_col;
 
     // initial set up
-    int total_second = input_min * 60;
+    int total_second = round(input_min * 60);
 
     int minute = convert_minute(total_second);
     int hour = convert_hour(total_second);
