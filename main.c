@@ -15,7 +15,7 @@
        2 ) center the count down (done)
        3) play sound when count down end (done)
        4 ) display different font styles (done) 
-       5 ) accept input 
+       5 ) accept input (done)
        6 ) write some tests (done)
 */
 
@@ -26,6 +26,9 @@
 // struct for text [row][col] 5 x 5 #
 typedef char TEXT[ROW][COL];
 
+static float input_min = 0;
+static int total_second_from_user_input = 0;
+
 int play_sound(void);
 void draw_text(int num, int x, int y);
 void print_digit(int digit, int x, int y);
@@ -33,18 +36,58 @@ void print_digit(int digit, int x, int y);
 int main (int argc, char* argv[])
 {
     // check command line argument
-    if (argc < 2 || argc > 2)
+    if (argc > 2)
     {
-        printf("Usage: ./tcd MINUTES\n");
+        printf("Usage: ./tcd MINUTES or leave it blank and enter the time yourself.\n");
         return 1;
     }
 
-    float input_min = atof(argv[1]);
-    if (round(input_min / 60) >= 100)
+    if (argc == 2)
     {
-        printf("Exceed the mixmum minute (6000)! Please try again with a smaller number.\n");
-        return 1;
+        input_min = atof(argv[1]);
+
+        if (input_min == 0)
+        {
+            printf("Invalid minute input. Please enter a number for the minute.");
+            return 1;
+        }
+
+        if (round(input_min / 60) >= 100)
+        {
+            printf("Exceed the mixmum minute (6000)! Please try again with a smaller number.\n");
+            return 1;
+        }
     }
+    else
+    {
+        int user_input_hr;
+        int user_input_min;
+        int user_input_second;
+
+        printf("Enter a number for hour: ");
+        if (scanf("%d", &user_input_hr) != 1)
+        {
+            printf("Invalid number for hour.\n");
+            return 1;
+        }
+
+        printf("Enter a number for minute: ");
+        if (scanf("%d", &user_input_min) != 1)
+        {
+            printf("Invalid number for minute.\n");
+            return 1;
+        }
+
+        printf("Enter a number for second: ");
+        if (scanf("%d", &user_input_second) != 1)
+        {
+            printf("Invalid number for second.\n");
+            return 1;
+        }
+
+        total_second_from_user_input = convert_user_input_to_second(user_input_hr, user_input_min, user_input_second);
+    }
+
 
     // get terminal size to center the countdown
     struct winsize terminal_window;
@@ -53,7 +96,7 @@ int main (int argc, char* argv[])
     int t_width = terminal_window.ws_col;
 
     // initial set up
-    int total_second = round(input_min * 60);
+    int total_second = total_second_from_user_input == 0 ? round(input_min * 60) : total_second_from_user_input;
 
     int minute = convert_minute(total_second);
     int hour = convert_hour(total_second);
@@ -65,7 +108,6 @@ int main (int argc, char* argv[])
     initscr();
     refresh();
     curs_set(0); // remove cursor
-
    
     clock_t begin = clock();
     // count down logic
