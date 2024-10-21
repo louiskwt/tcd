@@ -10,7 +10,6 @@
 #include <mpg123.h>
 #include "utils.h"
 
-
 /*
  TODO: 1) fix 1 minute count down (done)
        2 ) center the count down (done)
@@ -24,7 +23,7 @@
 #define ROW 5
 #define COL 5
 
-// struct for text [row][col] 3 x 5 #
+// struct for text [row][col] 5 x 5 #
 typedef char TEXT[ROW][COL];
 
 int play_sound(void);
@@ -169,7 +168,7 @@ int play_sound()
 
 void draw_text(int num, int x, int y)
 {
-    // struct for text [row][col] 4 x 5 #
+    // struct for text [row][col] 5 x 5 #
     TEXT t;
     switch (num)
     {
@@ -261,14 +260,9 @@ void draw_text(int num, int x, int y)
 
 void print_digit(int digit, int x, int y)
 {
-   
     for (int i = 0; i < 2; i++)
     { 
-        if (digit < 10 && i == 0)
-        {
-            draw_text(i, x + (i * 10), y);
-            continue;
-        }
+    
 
         if (digit >= 10) 
         {
@@ -276,11 +270,16 @@ void print_digit(int digit, int x, int y)
             draw_text(d, x + (i * 10), y);
             digit = digit % 10;
         } 
+        else if (digit < 10 && i == 0)
+        {
+            draw_text(i, x + (i * 10), y);
+        }
         else
         {
             draw_text(digit, x + (i * 10), y); 
         }  
     }
+    return;
 }
 
 // +--- 3x5 figlet
