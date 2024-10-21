@@ -10,15 +10,6 @@
 #include <mpg123.h>
 #include "utils.h"
 
-/*
- TODO: 1) fix 1 minute count down (done)
-       2 ) center the count down (done)
-       3) play sound when count down end (done)
-       4 ) display different font styles (done) 
-       5 ) accept input (done)
-       6 ) write some tests (done)
-*/
-
 #define EIGHT_BITS 8
 #define ROW 5
 #define COL 5
@@ -290,11 +281,13 @@ void draw_text(int num, int x, int y)
         strcpy(t[4], " ## ");
         break;
     }
+
     for (int i = 0; i < ROW; i++)
     {
         mvprintw(floor(y / 2) + i,  floor(x / 2) - 18, t[i]); // center the number on window by its half length which is 18
         refresh();
     }
+
     return;
 }
 
@@ -320,9 +313,7 @@ void print_digit(int digit, int x, int y)
     return;
 }
 
-// +--- 3x5 figlet
-
-                                        
+// +--- 3x5 figlet                                   
 // ###  #  ### ### # # ### ### ### ### ### 
 // # # ##    #   # # # #   #     # # # # # 
 // # #  #  ###  ## ### ### ###   # ### ### 
