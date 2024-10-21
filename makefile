@@ -1,2 +1,2 @@
 make:
-	gcc -o tcd main.c -lncurses -l mpg123 -l ao
+	gcc -o tcd main.c -l ncurses -l mpg123 -l ao
