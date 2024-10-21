@@ -199,6 +199,8 @@ int play_sound()
     }
  
     free(buffer);
+    buffer = NULL;
+    
     ao_close(device);
     mpg123_close(m_handle);
     mpg123_delete(m_handle);
