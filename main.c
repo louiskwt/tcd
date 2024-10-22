@@ -153,6 +153,10 @@ int main (int argc, char* argv[])
     }
     
     clear();
+    if (has_colors())
+    {
+        attrset(COLOR_PAIR(2));
+    }
     mvprintw(floor(t_height / 2), floor(t_width / 2) - MESSAGE_OFFSET, "Time's up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
     refresh();
     play_sound();
