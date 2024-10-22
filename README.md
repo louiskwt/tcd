@@ -1,4 +1,4 @@
-# Terminal Count Down
+# Terminal Countdown
 
 #### Video Demo: https://youtu.be/RRJWFTlhmCo
 
