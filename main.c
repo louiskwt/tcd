@@ -13,6 +13,8 @@
 #define EIGHT_BITS 8
 #define ROW 5
 #define COL 5
+#define MESSAGE_OFFSET 17
+#define DISPLAY_OFFSET 18
 
 // struct for text [row][col] 5 x 5 #
 typedef char TEXT[ROW][COL];
@@ -136,7 +138,7 @@ int main (int argc, char* argv[])
     }
     
     clear();
-    mvprintw(floor(t_height / 2), floor(t_width / 2) - 17, "Time's up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
+    mvprintw(floor(t_height / 2), floor(t_width / 2) - MESSAGE_OFFSET, "Time's up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
     refresh();
     play_sound();
     endwin();
@@ -284,7 +286,7 @@ void draw_text(int num, int x, int y)
 
     for (int i = 0; i < ROW; i++)
     {
-        mvprintw(floor(y / 2) + i,  floor(x / 2) - 18, t[i]); // center the number on window by its half length which is 18
+        mvprintw(floor(y / 2) + i,  floor(x / 2) - DISPLAY_OFFSET, t[i]); // center the number on window by its half length which is 18
         refresh();
     }
 
