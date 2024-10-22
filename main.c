@@ -136,7 +136,7 @@ int main (int argc, char* argv[])
     }
     
     clear();
-    mvprintw(floor(t_height / 2), floor(t_width / 2) - 16, "Times up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
+    mvprintw(floor(t_height / 2), floor(t_width / 2) - 17, "Time's up! Press ctrl + c to exit."); // center the message by its half lenght which is 15
     refresh();
     play_sound();
     endwin();
