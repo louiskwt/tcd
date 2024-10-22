@@ -98,9 +98,24 @@ int main (int argc, char* argv[])
     double prev_time = 0;
     // start ncurses window
     initscr();
-    refresh();
     curs_set(0); // remove cursor
-   
+
+    if (!has_colors())
+    {
+        mvprintw(floor(t_height / 2), floor(t_width / 2) - MESSAGE_OFFSET, "Color not supported. Press any key to continue."); // center the message by its half lenght which is 15
+        getch();
+    }
+    else
+    {
+        start_color();
+        use_default_colors();
+        init_pair(1, COLOR_GREEN, -1);
+        init_pair(2, COLOR_RED, -1);
+        attrset(COLOR_PAIR(1));
+    }
+
+    refresh();
+    
     clock_t begin = clock();
     // count down logic
     while(total_second >= 0)
