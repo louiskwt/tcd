@@ -19,5 +19,7 @@ To conclude, I am confident to say that this project has helped me become a bett
 #### Roadmap
 
 🎨 Colored Display _added_
+
 🅰️ Different Figlet Fonts TODO
+
 💻 Improved User Input UI/UX TODO
