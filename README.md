@@ -1,6 +1,8 @@
 # Terminal Countdown
 
-#### Video Demo: https://youtu.be/RRJWFTlhmCo
+#### Video Demo:
+
+[Demo](https://youtu.be/RRJWFTlhmCo)
 
 #### Description:
 
